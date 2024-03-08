@@ -1,9 +1,9 @@
-package com.troy.pokemon.totalsolution.network.beans
+package com.troy.pokemon.data.network.beans
 
 import com.google.gson.annotations.SerializedName
 
-data class PokemonBean(
+data class PokemonSpeciesBean(
     val id: Int,
     @SerializedName("flavor_text_entries")
-    val types: String
+    val flavorTextEntries: String
 )

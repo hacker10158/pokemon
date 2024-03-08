@@ -1,8 +1,8 @@
-package com.troy.pokemon.totalsolution.network
+package com.troy.pokemon.data.network
 
-import com.troy.pokemon.totalsolution.network.response.GetAllPokemonResponse
-import com.troy.pokemon.totalsolution.network.response.GetPokemonResponse
-import com.troy.pokemon.totalsolution.network.response.GetPokemonSpeciesResponse
+import com.troy.pokemon.data.network.response.GetAllPokemonResponse
+import com.troy.pokemon.data.network.response.GetPokemonResponse
+import com.troy.pokemon.data.network.response.GetPokemonSpeciesResponse
 import retrofit2.http.*
 
 interface PokemonRequestService {

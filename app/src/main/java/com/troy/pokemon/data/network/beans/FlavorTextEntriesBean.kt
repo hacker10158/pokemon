@@ -1,4 +1,4 @@
-package com.troy.pokemon.totalsolution.network.beans
+package com.troy.pokemon.data.network.beans
 
 import com.google.gson.annotations.SerializedName
 

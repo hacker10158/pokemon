@@ -1,4 +1,4 @@
-package com.troy.pokemon.core
+package com.troy.pokemon.ui
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

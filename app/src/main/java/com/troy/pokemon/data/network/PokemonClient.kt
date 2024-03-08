@@ -1,4 +1,4 @@
-package com.troy.pokemon.totalsolution.network
+package com.troy.pokemon.data.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

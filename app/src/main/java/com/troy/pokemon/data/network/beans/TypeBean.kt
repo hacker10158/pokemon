@@ -1,4 +1,4 @@
-package com.troy.pokemon.totalsolution.network.beans
+package com.troy.pokemon.data.network.beans
 
 data class TypeBean(
     val name: String,

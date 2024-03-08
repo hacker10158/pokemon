@@ -1,8 +1,8 @@
-package com.troy.pokemon.totalsolution.network.response
+package com.troy.pokemon.data.network.response
 
 import com.google.gson.annotations.SerializedName
-import com.troy.pokemon.totalsolution.network.beans.EvolvesFromSpeciseBean
-import com.troy.pokemon.totalsolution.network.beans.FlavorTextEntriesBean
+import com.troy.pokemon.data.network.beans.EvolvesFromSpeciseBean
+import com.troy.pokemon.data.network.beans.FlavorTextEntriesBean
 
 data class GetPokemonSpeciesResponse(
     val id: Int,

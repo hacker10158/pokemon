@@ -1,4 +1,4 @@
-package com.troy.pokemon.totalsolution.network.beans
+package com.troy.pokemon.data.network.beans
 
 data class EvolvesFromSpeciseBean(
     val name: String,

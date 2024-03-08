@@ -1,9 +1,9 @@
-package com.troy.pokemon
+package com.troy.pokemon.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.troy.pokemon.core.MainViewModel
+import com.troy.pokemon.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
