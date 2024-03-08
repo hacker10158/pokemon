@@ -1,5 +1,6 @@
-package com.troy.pokemon.data.network.di
+package com.troy.pokemon.data.di
 
+import com.troy.pokemon.data.network.PokemonClient
 import com.troy.pokemon.data.network.PokemonRequestService
 import com.troy.pokemon.data.repo.PokemonRepository
 import com.troy.pokemon.data.repo.PokemonRepositoryImpl
@@ -11,9 +12,13 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideLauncherRepository(pokemonRequestService: PokemonRequestService): PokemonRepository = PokemonRepositoryImpl(pokemonRequestService)
+    fun providePokemonClient(): PokemonClient = PokemonClient()
+
+    @Singleton
+    @Provides
+    fun providePoke(pokemonClient: PokemonClient): PokemonRequestService = pokemonClient.service
 }

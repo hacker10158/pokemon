@@ -8,4 +8,20 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(): ViewModel() {
     
+    // TODO provide flow for observe type grouped pokemon
+
+    // TODO provide flow for observe captured pokemon
+
+    fun fetchAllPokemon() {
+        //TODO
+    }
+
+    fun capturPokemon() {
+        //TODO
+    }
+
+    fun releasePokemon() {
+        //TODO
+    }
+
 }
