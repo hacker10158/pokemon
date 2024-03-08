@@ -13,7 +13,7 @@ class PokemonRepositoryImpl @Inject constructor(
     private val pokemonDatabase: PokemonDatabase,
     private val pokemonService: PokemonRequestService
 ): PokemonRepository {
-    override suspend fun getAllPokemonName(limit: Int): List<Info> {
+    override suspend fun getAllPokemonInfo(limit: Int): List<Info> {
         val list = pokemonDatabase.infoDao().getAllInfo()
         return if (list.size == limit) list
         else {
@@ -25,7 +25,7 @@ class PokemonRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getAllPokemon(): Flow<List<Pokemon>> {
+    override fun getAllPokemonStream(): Flow<List<Pokemon>> {
         return pokemonDatabase.pokemonDao().getAllPokemon()
     }
 

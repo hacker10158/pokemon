@@ -6,11 +6,11 @@ import com.troy.pokemon.data.db.Pokemon
 import kotlinx.coroutines.flow.Flow
 
 interface PokemonRepository {
-    suspend fun getAllPokemonName(limit: Int): List<Info>
+    suspend fun getAllPokemonInfo(limit: Int): List<Info>
 
     suspend fun getPokemonByName(name: String): Pokemon
 
     suspend fun getPokemonSpecies(id: String): PokemonSpecies
 
-    fun getAllPokemon(): Flow<List<Pokemon>>
+    fun getAllPokemonStream(): Flow<List<Pokemon>>
 }
