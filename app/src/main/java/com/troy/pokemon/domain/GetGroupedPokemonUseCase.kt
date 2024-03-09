@@ -26,6 +26,8 @@ class GetGroupedPokemonUseCase @Inject constructor() {
             )
         }
 
+        groupedPokemon.sortBy { it.type }
+
         return groupedPokemon
     }
 }
