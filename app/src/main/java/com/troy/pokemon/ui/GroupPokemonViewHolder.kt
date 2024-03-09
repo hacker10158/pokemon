@@ -6,8 +6,13 @@ import com.troy.pokemon.databinding.ViewHolderGroupPokemonBinding
 import com.troy.pokemon.ui.data.GroupedPokemon
 import java.util.Locale
 
-class GroupPokemonViewHolder(private val binding: ViewHolderGroupPokemonBinding): RecyclerView.ViewHolder(binding.root)  {
-    val adapter = PokemonAdapter()
+class GroupPokemonViewHolder(
+    private val binding: ViewHolderGroupPokemonBinding,
+    private val onClick: (viewId: Int, pokemonId: Int) -> Unit
+): RecyclerView.ViewHolder(binding.root) {
+    val adapter = PokemonAdapter().apply {
+        this.onClickCallback = onClick
+    }
 
     fun bindViewHolder(groupedPokemon: GroupedPokemon) {
         binding.tvTitle.text = groupedPokemon.type.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString()}

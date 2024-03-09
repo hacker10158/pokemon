@@ -8,11 +8,12 @@ import com.troy.pokemon.databinding.ViewHolderGroupPokemonBinding
 import com.troy.pokemon.ui.data.GroupedPokemon
 
 class MainPageUiAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    lateinit var onClickCallback: (viewId: Int, pokemonId: Int) -> Unit
     private var groupedPokemonList = ArrayList<GroupedPokemon>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return GroupPokemonViewHolder(ViewHolderGroupPokemonBinding.inflate(inflater, parent, false))
+        return GroupPokemonViewHolder(ViewHolderGroupPokemonBinding.inflate(inflater, parent, false), onClickCallback)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

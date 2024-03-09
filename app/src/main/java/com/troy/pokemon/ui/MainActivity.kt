@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.troy.pokemon.R
 import com.troy.pokemon.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -29,7 +30,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setupView() {
-        adapter = MainPageUiAdapter()
+        adapter = MainPageUiAdapter().apply {
+            onClickCallback = { viewId, pokeId ->
+                if(viewId == R.id.iv_pokemon) {
+                    //TODO open pokemon detail page
+                }
+            }
+        }
         binding.rvGroupPokemon.layoutManager = LinearLayoutManager(this)
         binding.rvGroupPokemon.adapter = adapter
     }

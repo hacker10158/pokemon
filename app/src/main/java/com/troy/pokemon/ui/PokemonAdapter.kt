@@ -8,11 +8,12 @@ import com.troy.pokemon.databinding.ViewHolderPokemonBinding
 import com.troy.pokemon.ui.data.Pokemon
 
 class PokemonAdapter: RecyclerView.Adapter<PokemonViewHolder>() {
+    lateinit var onClickCallback: (viewId: Int, pokemonId: Int) -> Unit
     private var pokemonList = ArrayList<Pokemon>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return PokemonViewHolder(ViewHolderPokemonBinding.inflate(inflater, parent, false))
+        return PokemonViewHolder(ViewHolderPokemonBinding.inflate(inflater, parent, false), onClickCallback)
     }
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
