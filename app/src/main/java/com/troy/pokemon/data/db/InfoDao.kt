@@ -10,14 +10,14 @@ import androidx.room.Update
 @Dao
 interface InfoDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(info: Info)
+    suspend fun insert(infoEntity: InfoEntity)
 
     @Update
-    suspend fun update(info: Info)
+    suspend fun update(infoEntity: InfoEntity)
 
     @Delete
-    suspend fun delete(info: Info)
+    suspend fun delete(infoEntity: InfoEntity)
 
     @Query("SELECT * from info")
-    suspend fun getAllInfo(): List<Info>
+    suspend fun getAllInfo(): List<InfoEntity>
 }
