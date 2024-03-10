@@ -65,6 +65,7 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
 
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
 }
 
 // Allow references to generated code

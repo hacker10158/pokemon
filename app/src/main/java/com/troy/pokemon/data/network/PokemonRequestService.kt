@@ -10,9 +10,11 @@ interface PokemonRequestService {
     @GET("api/v2/pokemon")
     suspend fun getAllPokemon(@Query("limit") limit: String): GetAllPokemonResponse
 
-    @GET("api/v2/pokemon/{id}/")
-    suspend fun getPokemon(@Path("id") id: String): GetPokemonResponse
+    //this path can be id or name
+    @GET("api/v2/pokemon/{path}/")
+    suspend fun getPokemon(@Path("path") path: String): GetPokemonResponse
 
-    @GET("api/v2/pokemon-species/{id}/")
-    suspend fun getPokemonSpecies(@Path("id") id: String): GetPokemonSpeciesResponse
+    //this path can be id or name
+    @GET("api/v2/pokemon-species/{path}/")
+    suspend fun getPokemonSpecies(@Path("path") path: String): GetPokemonSpeciesResponse
 }

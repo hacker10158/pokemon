@@ -20,7 +20,7 @@ interface PokemonDao {
     suspend fun delete(pokemonEntity: PokemonEntity)
 
     @Query("SELECT * from pokemon WHERE id = :id")
-    suspend fun getPokemon(id: Int): PokemonEntity?
+    fun getPokemon(id: Int): Flow<PokemonEntity>
 
     @Query("SELECT * from pokemon WHERE name = :name")
     suspend fun getPokemonByName(name: String): PokemonEntity?

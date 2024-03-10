@@ -45,6 +45,10 @@ class PokemonRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getPokemonStream(id: Int): Flow<PokemonEntity> {
+        return pokemonDatabase.pokemonDao().getPokemon(id)
+    }
+
     override suspend fun getPokemonSpecies(id: String): PokemonSpecies {
         TODO("Not yet implemented")
     }

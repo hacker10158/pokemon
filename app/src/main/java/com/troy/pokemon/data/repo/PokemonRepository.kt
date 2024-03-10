@@ -12,5 +12,7 @@ interface PokemonRepository {
 
     suspend fun getPokemonSpecies(id: String): PokemonSpecies
 
+    fun getPokemonStream(id: Int): Flow<PokemonEntity>
+
     fun getAllPokemonStream(): Flow<List<PokemonEntity>>
 }

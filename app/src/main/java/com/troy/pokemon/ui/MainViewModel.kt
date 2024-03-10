@@ -17,8 +17,8 @@ class MainViewModel @Inject constructor(
     private val getAllPokemonStreamUseCase: GetAllPokemonStreamUseCase,
     private val getGroupedPokemonUseCase: GetGroupedPokemonUseCase
 ): ViewModel() {
-    private val _state = MutableStateFlow(MainUiState(ArrayList()))
-    val state: StateFlow<MainUiState> = _state
+    private val _state = MutableStateFlow(MainState(ArrayList()))
+    val state: StateFlow<MainState> = _state
 
     // TODO provide flow for observe captured pokemon
 
@@ -26,10 +26,10 @@ class MainViewModel @Inject constructor(
         observePokemonDatabase()
     }
 
-    fun observePokemonDatabase() {
+    private fun observePokemonDatabase() {
         viewModelScope.launch {
             getAllPokemonStreamUseCase().collect {
-                _state.emit(MainUiState(getGroupedPokemonUseCase(it)))
+                _state.emit(MainState(getGroupedPokemonUseCase(it)))
             }
         }
     }
