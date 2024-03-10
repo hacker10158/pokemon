@@ -1,10 +1,11 @@
-package com.troy.pokemon.ui
+package com.troy.pokemon.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.troy.pokemon.domain.FetchPokemonUseCase
 import com.troy.pokemon.domain.GetAllPokemonStreamUseCase
 import com.troy.pokemon.domain.GetGroupedPokemonUseCase
+import com.troy.pokemon.ui.state.MainState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

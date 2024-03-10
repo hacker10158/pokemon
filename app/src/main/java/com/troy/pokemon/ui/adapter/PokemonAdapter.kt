@@ -1,10 +1,11 @@
-package com.troy.pokemon.ui
+package com.troy.pokemon.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.troy.pokemon.databinding.ViewHolderPokemonBinding
+import com.troy.pokemon.ui.viewholder.PokemonViewHolder
 import com.troy.pokemon.ui.data.Pokemon
 
 class PokemonAdapter: RecyclerView.Adapter<PokemonViewHolder>() {

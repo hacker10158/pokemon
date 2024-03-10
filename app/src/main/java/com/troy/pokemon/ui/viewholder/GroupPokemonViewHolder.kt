@@ -1,9 +1,10 @@
-package com.troy.pokemon.ui
+package com.troy.pokemon.ui.viewholder
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.troy.pokemon.data.firstToUpperCase
 import com.troy.pokemon.databinding.ViewHolderGroupPokemonBinding
+import com.troy.pokemon.ui.adapter.PokemonAdapter
 import com.troy.pokemon.ui.data.GroupedPokemon
 
 class GroupPokemonViewHolder(

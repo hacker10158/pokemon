@@ -1,4 +1,4 @@
-package com.troy.pokemon.ui
+package com.troy.pokemon.ui.viewholder
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide

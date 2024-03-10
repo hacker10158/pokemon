@@ -1,4 +1,4 @@
-package com.troy.pokemon.ui
+package com.troy.pokemon.ui.state
 
 import com.troy.pokemon.ui.data.Pokemon
 

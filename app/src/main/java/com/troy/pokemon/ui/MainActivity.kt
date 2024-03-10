@@ -13,6 +13,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.troy.pokemon.R
 import com.troy.pokemon.databinding.ActivityMainBinding
+import com.troy.pokemon.ui.adapter.MainPageUiAdapter
+import com.troy.pokemon.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

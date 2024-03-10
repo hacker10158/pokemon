@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.troy.pokemon.data.firstToUpperCase
 import com.troy.pokemon.databinding.FragmentPokemonDetailBinding
 import com.troy.pokemon.ui.data.Pokemon
+import com.troy.pokemon.ui.viewmodel.PokemonDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -18,7 +19,7 @@ import kotlinx.coroutines.launch
 class PokemonDetailFragment: Fragment() {
     private var _binding: FragmentPokemonDetailBinding? = null
     private val binding get() = _binding!!
-    private val viewModel :PokemonDetailViewModel by viewModels()
+    private val viewModel : PokemonDetailViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

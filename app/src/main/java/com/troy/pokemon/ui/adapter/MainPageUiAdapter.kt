@@ -1,10 +1,11 @@
-package com.troy.pokemon.ui
+package com.troy.pokemon.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.troy.pokemon.databinding.ViewHolderGroupPokemonBinding
+import com.troy.pokemon.ui.viewholder.GroupPokemonViewHolder
 import com.troy.pokemon.ui.data.GroupedPokemon
 
 class MainPageUiAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -17,7 +18,7 @@ class MainPageUiAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(holder is GroupPokemonViewHolder ) {
+        if(holder is GroupPokemonViewHolder) {
             holder.bindViewHolder(groupedPokemonList[position])
         }
     }
