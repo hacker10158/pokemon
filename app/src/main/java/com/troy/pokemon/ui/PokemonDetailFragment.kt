@@ -41,7 +41,7 @@ class PokemonDetailFragment: Fragment() {
         lifecycleScope.launch {
             viewModel.state.collect { state ->
                 state.pokemon?.let {
-                    updateView(it)
+                    updateView(it, state.evolveFromPokemon)
                 }
             }
         }
@@ -49,10 +49,15 @@ class PokemonDetailFragment: Fragment() {
         viewModel.observePokemon(id)
     }
 
-    private fun updateView(pokemon: Pokemon) {
+    private fun updateView(pokemon: Pokemon, evolvesFrom: Pokemon?) {
         binding.tvName.text = pokemon.name.firstToUpperCase()
         binding.tvFlavor.text = pokemon.flavorText
         Glide.with(this).load(pokemon.imageUrl).into(binding.ivPokemon)
+        evolvesFrom?.let {
+            binding.layoutEvolveFrom.visibility = View.VISIBLE
+            binding.tvEvolveFromName.text = it.name.firstToUpperCase()
+            Glide.with(this).load(it.imageUrl).into(binding.ivEvolvePokemon)
+        }
     }
 
     override fun onDestroyView() {

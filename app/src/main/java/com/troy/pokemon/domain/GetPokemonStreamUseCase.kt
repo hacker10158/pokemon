@@ -23,4 +23,17 @@ class GetPokemonStreamUseCase @Inject constructor(
             )
         }
     }
+
+    suspend operator fun invoke(name: String): Pokemon {
+        return pokemonRepository.getPokemonByName(name).let {
+            Pokemon(
+                it.id,
+                it.name,
+                it.imageUrl,
+                PokemonUtil.convertStringToTypes( it.typeString),
+                it.evolvesFrom,
+                it.flavorText
+            )
+        }
+    }
 }

@@ -7,8 +7,10 @@ import com.troy.pokemon.domain.GetPokemonStreamUseCase
 import com.troy.pokemon.ui.state.PokemonDetailState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,8 +27,13 @@ class PokemonDetailViewModel @Inject constructor(
             launch(Dispatchers.IO) {
                 fetchPokemonSpeciesUseCase(id)
             }
-            getPokemonStreamUseCase(id).collect {
-                _state.emit(PokemonDetailState(it))
+            getPokemonStreamUseCase(id).collect { pokemon ->
+                launch {
+                    pokemon.evolvesFrom?.let { name ->
+                        _state.emit(PokemonDetailState(pokemon, getPokemonStreamUseCase(name)))
+                    }
+                }
+                _state.emit(PokemonDetailState(pokemon))
             }
         }
     }
