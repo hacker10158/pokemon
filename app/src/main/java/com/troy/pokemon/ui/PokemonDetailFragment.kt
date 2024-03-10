@@ -21,6 +21,10 @@ class PokemonDetailFragment: Fragment() {
     private val binding get() = _binding!!
     private val viewModel : PokemonDetailViewModel by viewModels()
 
+    companion object {
+        const val KEY_ID = "id"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,7 +36,7 @@ class PokemonDetailFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val id = requireArguments().getInt("id")
+        val id = requireArguments().getInt(KEY_ID)
 
         lifecycleScope.launch {
             viewModel.state.collect { state ->
@@ -47,6 +51,7 @@ class PokemonDetailFragment: Fragment() {
 
     private fun updateView(pokemon: Pokemon) {
         binding.tvName.text = pokemon.name.firstToUpperCase()
+        binding.tvFlavor.text = pokemon.flavorText
         Glide.with(this).load(pokemon.imageUrl).into(binding.ivPokemon)
     }
 

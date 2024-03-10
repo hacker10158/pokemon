@@ -1,12 +1,13 @@
 package com.troy.pokemon.data.repo
 
+import android.util.Log
 import com.troy.pokemon.data.PokemonUtil
 import com.troy.pokemon.data.db.InfoEntity
 import com.troy.pokemon.data.db.PokemonDatabase
 import com.troy.pokemon.data.network.PokemonRequestService
-import com.troy.pokemon.ui.data.PokemonSpecies
 import com.troy.pokemon.data.db.PokemonEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class PokemonRepositoryImpl @Inject constructor(
@@ -49,8 +50,16 @@ class PokemonRepositoryImpl @Inject constructor(
         return pokemonDatabase.pokemonDao().getPokemon(id)
     }
 
-    override suspend fun getPokemonSpecies(id: String): PokemonSpecies {
-        TODO("Not yet implemented")
+    override suspend fun getPokemonSpecies(id: Int): PokemonEntity {
+        val entity = pokemonDatabase.pokemonDao().getPokemon(id).first()
+        if(entity.flavorText == null) {
+            pokemonService.getPokemonSpecies(id.toString()).also {
+                entity.evolvesFrom = it.evolvesFromSpecies?.name
+                entity.flavorText = it.flavorTextEntries.first().flavorText
+            }
+            pokemonDatabase.pokemonDao().update(entity)
+        }
+        return entity
     }
 }
 

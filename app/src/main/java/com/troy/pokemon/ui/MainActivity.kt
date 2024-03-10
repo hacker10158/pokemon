@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showPokemonDetailPage(id: Int) {
-        val bundle = bundleOf("id" to id)
+        val bundle = bundleOf(PokemonDetailFragment.KEY_ID to id)
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             add<PokemonDetailFragment>(R.id.fragment_container_view, args = bundle)

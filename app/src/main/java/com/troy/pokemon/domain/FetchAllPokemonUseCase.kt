@@ -6,7 +6,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class FetchPokemonUseCase @Inject constructor(
+class FetchAllPokemonUseCase @Inject constructor(
     private val pokemonRepository: PokemonRepository
 ) {
     private val LIMIT = 151
@@ -16,6 +16,12 @@ class FetchPokemonUseCase @Inject constructor(
             pokemonRepository.getAllPokemonInfo(LIMIT).map {
                 async {
                     pokemonRepository.getPokemonByName(it.name)
+                }
+            }.also { deferredList ->
+                deferredList.map {
+                    async {
+                        pokemonRepository.getPokemonSpecies(it.await().id)
+                    }
                 }
             }
         }

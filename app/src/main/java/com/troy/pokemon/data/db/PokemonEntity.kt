@@ -9,5 +9,7 @@ data class PokemonEntity(
     val id:Int,
     val name:String,
     val imageUrl:String,
-    val typeString: String // type will convert to string : fire,fly...etc
+    val typeString: String, // type will convert to string : fire,fly...etc
+    var evolvesFrom: String? = null,
+    var flavorText: String? = null
 )

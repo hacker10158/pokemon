@@ -17,7 +17,9 @@ class GetPokemonStreamUseCase @Inject constructor(
                 it.id,
                 it.name,
                 it.imageUrl,
-                PokemonUtil.convertStringToTypes( it.typeString)
+                PokemonUtil.convertStringToTypes( it.typeString),
+                it.evolvesFrom,
+                it.flavorText
             )
         }
     }

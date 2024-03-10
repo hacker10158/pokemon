@@ -2,7 +2,7 @@ package com.troy.pokemon.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.troy.pokemon.domain.FetchPokemonUseCase
+import com.troy.pokemon.domain.FetchAllPokemonUseCase
 import com.troy.pokemon.domain.GetAllPokemonStreamUseCase
 import com.troy.pokemon.domain.GetGroupedPokemonUseCase
 import com.troy.pokemon.ui.state.MainState
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val fetchPokemonUseCase: FetchPokemonUseCase,
+    private val fetchAllPokemonUseCase: FetchAllPokemonUseCase,
     private val getAllPokemonStreamUseCase: GetAllPokemonStreamUseCase,
     private val getGroupedPokemonUseCase: GetGroupedPokemonUseCase
 ): ViewModel() {
@@ -37,7 +37,7 @@ class MainViewModel @Inject constructor(
 
     fun fetchAllPokemon() {
         viewModelScope.launch {
-            fetchPokemonUseCase()
+            fetchAllPokemonUseCase()
         }
     }
 
