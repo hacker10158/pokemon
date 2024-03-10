@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.troy.pokemon.R
 import com.troy.pokemon.data.firstToUpperCase
 import com.troy.pokemon.databinding.FragmentPokemonDetailBinding
 import com.troy.pokemon.ui.data.Pokemon
@@ -38,6 +40,8 @@ class PokemonDetailFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val id = requireArguments().getInt(KEY_ID)
 
+        setupOnClickListener()
+
         lifecycleScope.launch {
             viewModel.state.collect { state ->
                 state.pokemon?.let {
@@ -49,8 +53,17 @@ class PokemonDetailFragment: Fragment() {
         viewModel.observePokemon(id)
     }
 
+    private fun setupOnClickListener() {
+        binding.ivBack.setOnClickListener {
+            parentFragmentManager.commit {
+                remove(this@PokemonDetailFragment)
+            }
+        }
+    }
+
     private fun updateView(pokemon: Pokemon, evolvesFrom: Pokemon?) {
         binding.tvName.text = pokemon.name.firstToUpperCase()
+        binding.tvNumber.text = resources.getString(R.string.pokemon_number, pokemon.id)
         binding.tvFlavor.text = pokemon.flavorText
         Glide.with(this).load(pokemon.imageUrl).into(binding.ivPokemon)
         evolvesFrom?.let {

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">pokemon</string>
     <string name="evolves_from">Evolves from</string>
+    <string name="pokemon_number">#%d</string>
 </resources>
