@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             add<PokemonDetailFragment>(R.id.fragment_container_view, args = bundle)
+            addToBackStack("PokemonDetailFragment")
         }
     }
 
@@ -58,9 +59,7 @@ class MainActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (supportFragmentManager.fragments.size > 1) {
-                    supportFragmentManager.commit {
-                        remove(supportFragmentManager.fragments.last())
-                    }
+                    supportFragmentManager.popBackStack()
                 } else {
                     finish()
                 }

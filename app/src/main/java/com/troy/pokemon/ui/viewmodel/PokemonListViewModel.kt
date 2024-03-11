@@ -7,6 +7,7 @@ import com.troy.pokemon.domain.GetAllPokemonStreamUseCase
 import com.troy.pokemon.domain.GetGroupedPokemonUseCase
 import com.troy.pokemon.ui.state.PokemonListState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -20,7 +21,7 @@ class PokemonListViewModel @Inject constructor(
 ): ViewModel() {
     private val _state = MutableStateFlow(PokemonListState(ArrayList()))
     val state: StateFlow<PokemonListState> = _state
-
+    private lateinit var job : Job
     // TODO provide flow for observe captured pokemon
 
     init {
@@ -36,9 +37,14 @@ class PokemonListViewModel @Inject constructor(
     }
 
     fun fetchAllPokemon() {
-        viewModelScope.launch {
+        job = Job()
+        viewModelScope.launch(job) {
             fetchAllPokemonUseCase()
         }
+    }
+
+    fun stopFetch() {
+        job.cancel()
     }
 
     fun capturePokemon() {

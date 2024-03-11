@@ -39,11 +39,6 @@ class PokemonListFragment: Fragment() {
 
         setupView()
         observeState()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
         viewModel.fetchAllPokemon()
     }
 
@@ -52,11 +47,21 @@ class PokemonListFragment: Fragment() {
             onClickCallback = { viewId, pokeId ->
                 if(viewId == R.id.iv_pokemon) {
                     activityViewModel.showPokemonDetail(pokeId)
+                    onHiddenChanged(true)
+                    viewModel.stopFetch()
                 }
             }
         }
         binding.rvGroupPokemon.layoutManager = LinearLayoutManager(context)
         binding.rvGroupPokemon.adapter = adapter
+
+        parentFragmentManager.addOnBackStackChangedListener {
+            if (parentFragmentManager.backStackEntryCount == 1) {
+                viewModel.stopFetch()
+            } else if (parentFragmentManager.backStackEntryCount == 0) {
+                viewModel.fetchAllPokemon()
+            }
+        }
     }
 
     private fun observeState() {
