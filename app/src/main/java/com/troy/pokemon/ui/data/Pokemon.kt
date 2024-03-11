@@ -6,5 +6,6 @@ data class Pokemon(
     val imageUrl:String,
     val types: List<String>,
     var evolvesFrom: String? = null,
-    var flavorText: String? = null
+    var flavorText: String? = null,
+    var uid: Int = 0
 )

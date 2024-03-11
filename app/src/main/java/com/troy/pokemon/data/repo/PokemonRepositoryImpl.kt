@@ -3,6 +3,7 @@ package com.troy.pokemon.data.repo
 import android.util.Log
 import com.troy.pokemon.data.PokemonUtil
 import com.troy.pokemon.data.db.InfoEntity
+import com.troy.pokemon.data.db.MyPokemonEntity
 import com.troy.pokemon.data.db.PokemonDatabase
 import com.troy.pokemon.data.network.PokemonRequestService
 import com.troy.pokemon.data.db.PokemonEntity
@@ -14,6 +15,7 @@ class PokemonRepositoryImpl @Inject constructor(
     private val pokemonDatabase: PokemonDatabase,
     private val pokemonService: PokemonRequestService
 ): PokemonRepository {
+
     override suspend fun getAllPokemonInfo(limit: Int): List<InfoEntity> {
         val list = pokemonDatabase.infoDao().getAllInfo()
         return if (list.size == limit) list
@@ -24,10 +26,6 @@ class PokemonRepositoryImpl @Inject constructor(
                 item
             }.toList()
         }
-    }
-
-    override fun getAllPokemonStream(): Flow<List<PokemonEntity>> {
-        return pokemonDatabase.pokemonDao().getAllPokemon()
     }
 
     override suspend fun getPokemonByName(name: String): PokemonEntity {
@@ -46,10 +44,6 @@ class PokemonRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getPokemonStream(id: Int): Flow<PokemonEntity> {
-        return pokemonDatabase.pokemonDao().getPokemon(id)
-    }
-
     override suspend fun getPokemonSpecies(id: Int): PokemonEntity {
         val entity = pokemonDatabase.pokemonDao().getPokemon(id).first()
         if(entity.flavorText == null) {
@@ -60,6 +54,32 @@ class PokemonRepositoryImpl @Inject constructor(
             pokemonDatabase.pokemonDao().update(entity)
         }
         return entity
+    }
+
+    override suspend fun addMyPokemon(id: Int) {
+        pokemonDatabase.myPokemonDao().insert(
+            MyPokemonEntity(
+                null,
+                id = id,
+                timestamp = System.currentTimeMillis()
+            )
+        )
+    }
+
+    override suspend fun removeMyPokemon(uid: Int) {
+        pokemonDatabase.myPokemonDao().delete(uid)
+    }
+
+    override fun getPokemonStream(id: Int): Flow<PokemonEntity> {
+        return pokemonDatabase.pokemonDao().getPokemon(id)
+    }
+
+    override fun getAllPokemonStream(): Flow<List<PokemonEntity>> {
+        return pokemonDatabase.pokemonDao().getAllPokemon()
+    }
+
+    override fun getAllMyPokemonStream(): Flow<List<MyPokemonEntity>> {
+        return pokemonDatabase.myPokemonDao().getAllMyPokemon()
     }
 }
 

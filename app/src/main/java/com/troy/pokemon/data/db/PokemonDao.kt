@@ -1,7 +1,6 @@
 package com.troy.pokemon.data.db
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -15,9 +14,6 @@ interface PokemonDao {
 
     @Update
     suspend fun update(pokemonEntity: PokemonEntity)
-
-    @Delete
-    suspend fun delete(pokemonEntity: PokemonEntity)
 
     @Query("SELECT * from pokemon WHERE id = :id")
     fun getPokemon(id: Int): Flow<PokemonEntity>
