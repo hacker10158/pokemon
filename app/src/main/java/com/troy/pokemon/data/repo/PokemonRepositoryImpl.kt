@@ -1,8 +1,8 @@
 package com.troy.pokemon.data.repo
 
-import android.util.Log
 import com.troy.pokemon.data.PokemonUtil
 import com.troy.pokemon.data.db.InfoEntity
+import com.troy.pokemon.data.db.MyPokeWithData
 import com.troy.pokemon.data.db.MyPokemonEntity
 import com.troy.pokemon.data.db.PokemonDatabase
 import com.troy.pokemon.data.network.PokemonRequestService
@@ -78,8 +78,7 @@ class PokemonRepositoryImpl @Inject constructor(
         return pokemonDatabase.pokemonDao().getAllPokemon()
     }
 
-    override fun getAllMyPokemonStream(): Flow<List<MyPokemonEntity>> {
+    override fun getAllMyPokemonStream(): Flow<List<MyPokeWithData>> {
         return pokemonDatabase.myPokemonDao().getAllMyPokemon()
     }
 }
-

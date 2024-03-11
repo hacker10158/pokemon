@@ -20,5 +20,9 @@ class PokemonViewHolder(
         binding.ivPokemon.setOnClickListener {
             onClickCallback(it.id, pokemon.id)
         }
+
+        binding.ivPokeBall.setOnClickListener {
+            onClickCallback(it.id, pokemon.id)
+        }
     }
 }

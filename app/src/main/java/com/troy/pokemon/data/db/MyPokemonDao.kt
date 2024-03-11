@@ -15,5 +15,5 @@ interface MyPokemonDao {
     suspend fun delete(uid: Int)
 
     @Query("SELECT * from my_pokemon")
-    fun getAllMyPokemon(): Flow<List<MyPokemonEntity>>
+    fun getAllMyPokemon(): Flow<List<MyPokeWithData>>
 }

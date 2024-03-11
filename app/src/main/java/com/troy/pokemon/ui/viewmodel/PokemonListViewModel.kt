@@ -2,9 +2,11 @@ package com.troy.pokemon.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.troy.pokemon.domain.CapturePokemonUseCase
 import com.troy.pokemon.domain.FetchAllPokemonUseCase
 import com.troy.pokemon.domain.GetAllPokemonStreamUseCase
 import com.troy.pokemon.domain.GetGroupedPokemonUseCase
+import com.troy.pokemon.domain.GetMyPokemonStreamUseCase
 import com.troy.pokemon.ui.state.PokemonListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -17,7 +19,9 @@ import javax.inject.Inject
 class PokemonListViewModel @Inject constructor(
     private val fetchAllPokemonUseCase: FetchAllPokemonUseCase,
     private val getAllPokemonStreamUseCase: GetAllPokemonStreamUseCase,
-    private val getGroupedPokemonUseCase: GetGroupedPokemonUseCase
+    private val getGroupedPokemonUseCase: GetGroupedPokemonUseCase,
+    private val getMyPokemonStreamUseCase: GetMyPokemonStreamUseCase,
+    private val capturePokemonUseCase: CapturePokemonUseCase
 ): ViewModel() {
     private val _state = MutableStateFlow(PokemonListState(ArrayList()))
     val state: StateFlow<PokemonListState> = _state
@@ -26,12 +30,21 @@ class PokemonListViewModel @Inject constructor(
 
     init {
         observePokemonDatabase()
+        observeMyPokemon()
     }
 
     private fun observePokemonDatabase() {
         viewModelScope.launch {
             getAllPokemonStreamUseCase().collect {
                 _state.emit(PokemonListState(getGroupedPokemonUseCase(it)))
+            }
+        }
+    }
+
+    private fun observeMyPokemon() {
+        viewModelScope.launch {
+            getMyPokemonStreamUseCase().collect {
+                //TODO emit and handle UI
             }
         }
     }
@@ -47,8 +60,10 @@ class PokemonListViewModel @Inject constructor(
         job.cancel()
     }
 
-    fun capturePokemon() {
-        //TODO
+    fun capturePokemon(pokeId: Int) {
+        viewModelScope.launch {
+            capturePokemonUseCase(pokeId)
+        }
     }
 
     fun releasePokemon() {

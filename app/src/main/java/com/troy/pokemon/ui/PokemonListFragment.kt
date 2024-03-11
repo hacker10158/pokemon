@@ -45,10 +45,15 @@ class PokemonListFragment: Fragment() {
     private fun setupView() {
         adapter = MainPageUiAdapter().apply {
             onClickCallback = { viewId, pokeId ->
-                if(viewId == R.id.iv_pokemon) {
-                    activityViewModel.showPokemonDetail(pokeId)
-                    onHiddenChanged(true)
-                    viewModel.stopFetch()
+                when(viewId) {
+                    R.id.iv_pokemon -> {
+                        activityViewModel.showPokemonDetail(pokeId)
+                        onHiddenChanged(true)
+                        viewModel.stopFetch()
+                    }
+                    R.id.iv_poke_ball -> {
+                        viewModel.capturePokemon(pokeId)
+                    }
                 }
             }
         }
