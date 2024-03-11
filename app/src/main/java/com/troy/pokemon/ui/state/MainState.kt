@@ -1,7 +1,7 @@
 package com.troy.pokemon.ui.state
 
-import com.troy.pokemon.ui.data.GroupedPokemon
+sealed class MainState {
+    data class ShowPokemonDetail(val id: Int) : MainState()
+}
 
-data class MainState(
-    val groupedPokemonList: List<GroupedPokemon>
-)
+
