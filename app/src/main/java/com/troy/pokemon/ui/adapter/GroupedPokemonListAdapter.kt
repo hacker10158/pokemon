@@ -1,25 +1,47 @@
 package com.troy.pokemon.ui.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.troy.pokemon.data.ACTION_CAPTURE
+import com.troy.pokemon.data.ACTION_RELEASE
+import com.troy.pokemon.data.ACTION_TYPE
 import com.troy.pokemon.databinding.ViewHolderGroupPokemonBinding
+import com.troy.pokemon.databinding.ViewHolderMyPokemonBinding
 import com.troy.pokemon.ui.viewholder.GroupPokemonViewHolder
 import com.troy.pokemon.ui.data.GroupedPokemon
+import com.troy.pokemon.ui.data.Pokemon
+import com.troy.pokemon.ui.viewholder.MyPokemonViewHolder
 
-class MainPageUiAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    lateinit var onClickCallback: (viewId: Int, pokemonId: Int) -> Unit
+class GroupedPokemonListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    lateinit var onClickCallback: (viewId: Int, bundle: Bundle) -> Unit
     private var groupedPokemonList = ArrayList<GroupedPokemon>()
+    private var myPokemonList = ArrayList<Pokemon>()
+
+    companion object {
+        private const val TYPE_MY_POKEMON = 0
+        private const val TYPE_ALL_POKEMON = 1
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return GroupPokemonViewHolder(ViewHolderGroupPokemonBinding.inflate(inflater, parent, false), onClickCallback)
+        if (viewType == TYPE_MY_POKEMON) {
+            return MyPokemonViewHolder(ViewHolderMyPokemonBinding.inflate(inflater, parent, false)) {
+                    viewId, bundle -> onClickCallback(viewId, bundle.also { it.putInt(ACTION_TYPE, ACTION_RELEASE) })
+            }
+        }
+        return GroupPokemonViewHolder(ViewHolderGroupPokemonBinding.inflate(inflater, parent, false)) {
+                viewId, bundle -> onClickCallback(viewId, bundle.also { it.putInt(ACTION_TYPE, ACTION_CAPTURE) })
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is GroupPokemonViewHolder) {
-            holder.bindViewHolder(groupedPokemonList[position])
+            holder.bindViewHolder(groupedPokemonList[position - 1])
+        } else if (holder is MyPokemonViewHolder) {
+            holder.bindViewHolder(myPokemonList)
         }
     }
 
@@ -48,7 +70,21 @@ class MainPageUiAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         diffResult.dispatchUpdatesTo(this)
     }
 
+    fun updateMyPokemon(list: List<Pokemon>) {
+        myPokemonList.clear()
+        myPokemonList.addAll(list)
+
+        notifyItemChanged(0)
+    }
+
     override fun getItemCount(): Int {
-        return groupedPokemonList.size
+        return groupedPokemonList.size + 1
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == 0)
+            TYPE_MY_POKEMON
+        else
+            TYPE_ALL_POKEMON
     }
 }

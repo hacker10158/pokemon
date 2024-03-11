@@ -10,8 +10,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.troy.pokemon.R
+import com.troy.pokemon.data.ACTION_CAPTURE
+import com.troy.pokemon.data.ACTION_RELEASE
+import com.troy.pokemon.data.ACTION_TYPE
+import com.troy.pokemon.data.POKE_ID
+import com.troy.pokemon.data.UID
 import com.troy.pokemon.databinding.FragmentPokemonListBinding
-import com.troy.pokemon.ui.adapter.MainPageUiAdapter
+import com.troy.pokemon.ui.adapter.GroupedPokemonListAdapter
+import com.troy.pokemon.ui.state.PokemonListState
 import com.troy.pokemon.ui.viewmodel.MainViewModel
 import com.troy.pokemon.ui.viewmodel.PokemonListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +29,7 @@ class PokemonListFragment: Fragment() {
     private val binding get() = _binding!!
     private val viewModel : PokemonListViewModel by viewModels()
     private val activityViewModel: MainViewModel by activityViewModels()
-    private lateinit var adapter: MainPageUiAdapter
+    private lateinit var adapter: GroupedPokemonListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,16 +49,19 @@ class PokemonListFragment: Fragment() {
     }
 
     private fun setupView() {
-        adapter = MainPageUiAdapter().apply {
-            onClickCallback = { viewId, pokeId ->
+        adapter = GroupedPokemonListAdapter().apply {
+            onClickCallback = { viewId, bundle ->
                 when(viewId) {
                     R.id.iv_pokemon -> {
-                        activityViewModel.showPokemonDetail(pokeId)
+                        activityViewModel.showPokemonDetail(bundle.getInt(POKE_ID))
                         onHiddenChanged(true)
                         viewModel.stopFetch()
                     }
                     R.id.iv_poke_ball -> {
-                        viewModel.capturePokemon(pokeId)
+                        when(bundle.getInt(ACTION_TYPE)) {
+                            ACTION_CAPTURE -> viewModel.capturePokemon(bundle.getInt(POKE_ID))
+                            ACTION_RELEASE -> viewModel.releasePokemon(bundle.getInt(UID))
+                        }
                     }
                 }
             }
@@ -72,7 +81,14 @@ class PokemonListFragment: Fragment() {
     private fun observeState() {
         lifecycleScope.launch {
             viewModel.state.collect { state ->
-                adapter.updateGroupedPokemonList(state.groupedPokemonList)
+                when(state) {
+                    is PokemonListState.OnPokemonListChanged -> {
+                        adapter.updateGroupedPokemonList(state.groupedPokemonList)
+                    }
+                    is PokemonListState.OnMyPokemonChanged -> {
+                        adapter.updateMyPokemon(state.myPokemonList)
+                    }
+                }
             }
         }
     }

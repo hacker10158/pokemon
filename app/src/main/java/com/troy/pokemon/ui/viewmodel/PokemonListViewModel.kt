@@ -7,6 +7,7 @@ import com.troy.pokemon.domain.FetchAllPokemonUseCase
 import com.troy.pokemon.domain.GetAllPokemonStreamUseCase
 import com.troy.pokemon.domain.GetGroupedPokemonUseCase
 import com.troy.pokemon.domain.GetMyPokemonStreamUseCase
+import com.troy.pokemon.domain.ReleasePokemonUseCase
 import com.troy.pokemon.ui.state.PokemonListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -21,12 +22,12 @@ class PokemonListViewModel @Inject constructor(
     private val getAllPokemonStreamUseCase: GetAllPokemonStreamUseCase,
     private val getGroupedPokemonUseCase: GetGroupedPokemonUseCase,
     private val getMyPokemonStreamUseCase: GetMyPokemonStreamUseCase,
-    private val capturePokemonUseCase: CapturePokemonUseCase
+    private val capturePokemonUseCase: CapturePokemonUseCase,
+    private val releasePokemonUseCase: ReleasePokemonUseCase
 ): ViewModel() {
-    private val _state = MutableStateFlow(PokemonListState(ArrayList()))
+    private val _state = MutableStateFlow<PokemonListState>(PokemonListState.OnPokemonListChanged(ArrayList()))
     val state: StateFlow<PokemonListState> = _state
     private lateinit var job : Job
-    // TODO provide flow for observe captured pokemon
 
     init {
         observePokemonDatabase()
@@ -36,7 +37,7 @@ class PokemonListViewModel @Inject constructor(
     private fun observePokemonDatabase() {
         viewModelScope.launch {
             getAllPokemonStreamUseCase().collect {
-                _state.emit(PokemonListState(getGroupedPokemonUseCase(it)))
+                _state.emit(PokemonListState.OnPokemonListChanged(getGroupedPokemonUseCase(it)))
             }
         }
     }
@@ -44,7 +45,7 @@ class PokemonListViewModel @Inject constructor(
     private fun observeMyPokemon() {
         viewModelScope.launch {
             getMyPokemonStreamUseCase().collect {
-                //TODO emit and handle UI
+                _state.emit(PokemonListState.OnMyPokemonChanged(it))
             }
         }
     }
@@ -66,8 +67,9 @@ class PokemonListViewModel @Inject constructor(
         }
     }
 
-    fun releasePokemon() {
-        //TODO
+    fun releasePokemon(uid:Int) {
+        viewModelScope.launch {
+            releasePokemonUseCase(uid)
+        }
     }
-
 }

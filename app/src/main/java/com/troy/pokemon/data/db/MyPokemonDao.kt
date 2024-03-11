@@ -14,6 +14,6 @@ interface MyPokemonDao {
     @Query("DELETE FROM my_pokemon WHERE uid = :uid")
     suspend fun delete(uid: Int)
 
-    @Query("SELECT * from my_pokemon")
+    @Query("SELECT * from my_pokemon ORDER BY timestamp DESC")
     fun getAllMyPokemon(): Flow<List<MyPokeWithData>>
 }

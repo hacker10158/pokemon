@@ -1,5 +1,6 @@
 package com.troy.pokemon.ui.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,7 +10,7 @@ import com.troy.pokemon.ui.viewholder.PokemonViewHolder
 import com.troy.pokemon.ui.data.Pokemon
 
 class PokemonAdapter: RecyclerView.Adapter<PokemonViewHolder>() {
-    lateinit var onClickCallback: (viewId: Int, pokemonId: Int) -> Unit
+    lateinit var onClickCallback: (viewId: Int, bundle: Bundle) -> Unit
     private var pokemonList = ArrayList<Pokemon>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
@@ -24,7 +25,7 @@ class PokemonAdapter: RecyclerView.Adapter<PokemonViewHolder>() {
     fun updatePokemonList(list: List<Pokemon>) {
         val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return pokemonList[oldItemPosition].id == list[newItemPosition].id
+                return pokemonList[oldItemPosition].uid == list[newItemPosition].uid
             }
 
             override fun getOldListSize(): Int {
