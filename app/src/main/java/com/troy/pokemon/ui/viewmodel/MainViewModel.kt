@@ -11,12 +11,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(): ViewModel() {
-    private val _clickedItem = MutableSharedFlow<MainState>()
-    val clickedItem: SharedFlow<MainState> = _clickedItem
+    private val _state = MutableSharedFlow<MainState>()
+    val state: SharedFlow<MainState> = _state
 
     fun showPokemonDetail(id:Int) {
         viewModelScope.launch {
-            _clickedItem.emit(MainState.ShowPokemonDetail(id))
+            _state.emit(MainState.ShowPokemonDetail(id))
         }
     }
 }

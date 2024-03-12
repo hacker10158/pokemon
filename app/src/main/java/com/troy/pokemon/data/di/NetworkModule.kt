@@ -2,8 +2,6 @@ package com.troy.pokemon.data.di
 
 import com.troy.pokemon.data.network.PokemonClient
 import com.troy.pokemon.data.network.PokemonRequestService
-import com.troy.pokemon.data.repo.PokemonRepository
-import com.troy.pokemon.data.repo.PokemonRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

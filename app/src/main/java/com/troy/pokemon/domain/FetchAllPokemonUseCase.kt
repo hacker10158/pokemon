@@ -1,5 +1,6 @@
 package com.troy.pokemon.domain
 
+import com.troy.pokemon.data.Config
 import com.troy.pokemon.data.repo.PokemonRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -9,11 +10,10 @@ import javax.inject.Inject
 class FetchAllPokemonUseCase @Inject constructor(
     private val pokemonRepository: PokemonRepository
 ) {
-    private val LIMIT = 151
 
     suspend operator fun invoke() {
         withContext(Dispatchers.IO) {
-            pokemonRepository.getAllPokemonInfo(LIMIT).map {
+            pokemonRepository.getAllPokemonInfo(Config.LIMIT).map {
                 async {
                     pokemonRepository.getPokemonByName(it.name)
                 }

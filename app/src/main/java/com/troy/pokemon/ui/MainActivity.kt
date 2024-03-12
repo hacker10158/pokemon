@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     private fun observeState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.clickedItem.collect { state ->
+                viewModel.state.collect { state ->
                     when(state) {
                         is MainState.ShowPokemonDetail -> {
                             showPokemonDetailPage(state.id)

@@ -2,7 +2,6 @@ package com.troy.pokemon.data.repo
 
 import com.troy.pokemon.data.db.InfoEntity
 import com.troy.pokemon.data.db.MyPokeWithData
-import com.troy.pokemon.data.db.MyPokemonEntity
 import com.troy.pokemon.data.db.PokemonEntity
 import kotlinx.coroutines.flow.Flow
 
