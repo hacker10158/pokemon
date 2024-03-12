@@ -16,6 +16,10 @@ class PokemonRepositoryImpl @Inject constructor(
     private val pokemonService: PokemonRequestService
 ): PokemonRepository {
 
+    companion object {
+        const val LANGUAGE = "en"
+    }
+
     override suspend fun getAllPokemonInfo(limit: Int): List<InfoEntity> {
         val list = pokemonDatabase.infoDao().getAllInfo()
         return if (list.size == limit) list
@@ -49,7 +53,9 @@ class PokemonRepositoryImpl @Inject constructor(
         if(entity.flavorText == null) {
             pokemonService.getPokemonSpecies(id.toString()).also {
                 entity.evolvesFrom = it.evolvesFromSpecies?.name
-                entity.flavorText = it.flavorTextEntries.first().flavorText
+                entity.flavorText = it.flavorTextEntries.find { flavorTextEntry ->
+                    flavorTextEntry.language.name == LANGUAGE
+                }?.flavorText
             }
             pokemonDatabase.pokemonDao().update(entity)
         }

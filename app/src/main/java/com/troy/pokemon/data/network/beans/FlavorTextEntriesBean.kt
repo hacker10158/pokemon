@@ -4,5 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class FlavorTextEntriesBean(
     @SerializedName("flavor_text")
-    val flavorText:String
+    val flavorText:String,
+    val language: LanguageBean
 )
