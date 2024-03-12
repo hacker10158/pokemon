@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
@@ -13,8 +14,10 @@ import com.troy.pokemon.R
 import com.troy.pokemon.data.firstToUpperCase
 import com.troy.pokemon.databinding.FragmentPokemonDetailBinding
 import com.troy.pokemon.ui.data.Pokemon
+import com.troy.pokemon.ui.state.PokemonDetailEvent
 import com.troy.pokemon.ui.viewmodel.PokemonDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -22,6 +25,9 @@ class PokemonDetailFragment: Fragment() {
     private var _binding: FragmentPokemonDetailBinding? = null
     private val binding get() = _binding!!
     private val viewModel : PokemonDetailViewModel by viewModels()
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        showErrorMessage(throwable)
+    }
 
     companion object {
         const val KEY_ID = "id"
@@ -42,15 +48,32 @@ class PokemonDetailFragment: Fragment() {
 
         setupOnClickListener()
 
-        lifecycleScope.launch {
+        observeEvent()
+        observeState()
+
+        viewModel.observePokemon(id)
+    }
+
+    private fun observeState() {
+        lifecycleScope.launch(exceptionHandler) {
             viewModel.state.collect { state ->
                 state.pokemon?.let {
                     updateView(it, state.evolveFromPokemon)
                 }
             }
         }
+    }
 
-        viewModel.observePokemon(id)
+    private fun observeEvent() {
+        lifecycleScope.launch(exceptionHandler) {
+            viewModel.event.collect { event ->
+                when (event) {
+                    is PokemonDetailEvent.OnError -> {
+                        showErrorMessage(event.throwable)
+                    }
+                }
+            }
+        }
     }
 
     private fun setupOnClickListener() {
@@ -76,5 +99,9 @@ class PokemonDetailFragment: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showErrorMessage(throwable: Throwable) {
+        Toast.makeText(context, throwable.message, Toast.LENGTH_SHORT).show()
     }
 }

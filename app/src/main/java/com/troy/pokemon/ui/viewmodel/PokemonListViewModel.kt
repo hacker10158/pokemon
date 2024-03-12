@@ -8,10 +8,14 @@ import com.troy.pokemon.domain.GetAllPokemonStreamUseCase
 import com.troy.pokemon.domain.GetGroupedPokemonUseCase
 import com.troy.pokemon.domain.GetMyPokemonStreamUseCase
 import com.troy.pokemon.domain.ReleasePokemonUseCase
+import com.troy.pokemon.ui.state.PokemonDetailEvent
+import com.troy.pokemon.ui.state.PokemonListEvent
 import com.troy.pokemon.ui.state.PokemonListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,7 +28,9 @@ class PokemonListViewModel @Inject constructor(
     private val getMyPokemonStreamUseCase: GetMyPokemonStreamUseCase,
     private val capturePokemonUseCase: CapturePokemonUseCase,
     private val releasePokemonUseCase: ReleasePokemonUseCase
-): ViewModel() {
+): BaseViewModel() {
+    private val _event = MutableSharedFlow<PokemonListEvent>()
+    val event: SharedFlow<PokemonListEvent> = _event
     private val _state = MutableStateFlow<PokemonListState>(PokemonListState.OnPokemonListChanged(ArrayList()))
     val state: StateFlow<PokemonListState> = _state
     private lateinit var job : Job
@@ -35,7 +41,7 @@ class PokemonListViewModel @Inject constructor(
     }
 
     private fun observePokemonDatabase() {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             getAllPokemonStreamUseCase().collect {
                 _state.emit(PokemonListState.OnPokemonListChanged(getGroupedPokemonUseCase(it)))
             }
@@ -43,7 +49,7 @@ class PokemonListViewModel @Inject constructor(
     }
 
     private fun observeMyPokemon() {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             getMyPokemonStreamUseCase().collect {
                 _state.emit(PokemonListState.OnMyPokemonChanged(it))
             }
@@ -52,7 +58,7 @@ class PokemonListViewModel @Inject constructor(
 
     fun fetchAllPokemon() {
         job = Job()
-        viewModelScope.launch(job) {
+        viewModelScope.launch(job + exceptionHandler) {
             fetchAllPokemonUseCase()
         }
     }
@@ -62,14 +68,20 @@ class PokemonListViewModel @Inject constructor(
     }
 
     fun capturePokemon(pokeId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler){
             capturePokemonUseCase(pokeId)
         }
     }
 
     fun releasePokemon(uid:Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             releasePokemonUseCase(uid)
+        }
+    }
+
+    override fun handleException(throwable: Throwable) {
+        viewModelScope.launch(exceptionHandler) {
+            _event.emit(PokemonListEvent.OnError(throwable))
         }
     }
 }
