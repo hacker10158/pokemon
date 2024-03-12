@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +16,7 @@ import com.troy.pokemon.data.firstToUpperCase
 import com.troy.pokemon.databinding.FragmentPokemonDetailBinding
 import com.troy.pokemon.ui.data.Pokemon
 import com.troy.pokemon.ui.state.PokemonDetailEvent
+import com.troy.pokemon.ui.viewmodel.MainViewModel
 import com.troy.pokemon.ui.viewmodel.PokemonDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -24,6 +26,7 @@ import kotlinx.coroutines.launch
 class PokemonDetailFragment: Fragment() {
     private var _binding: FragmentPokemonDetailBinding? = null
     private val binding get() = _binding!!
+    private val activityViewModel: MainViewModel by activityViewModels()
     private val viewModel : PokemonDetailViewModel by viewModels()
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         showErrorMessage(throwable)
@@ -89,10 +92,13 @@ class PokemonDetailFragment: Fragment() {
         binding.tvNumber.text = resources.getString(R.string.pokemon_number, pokemon.id)
         binding.tvFlavor.text = pokemon.flavorText
         Glide.with(this).load(pokemon.imageUrl).into(binding.ivPokemon)
-        evolvesFrom?.let {
+        evolvesFrom?.let { poke ->
             binding.layoutEvolveFrom.visibility = View.VISIBLE
-            binding.tvEvolveFromName.text = it.name.firstToUpperCase()
-            Glide.with(this).load(it.imageUrl).into(binding.ivEvolvePokemon)
+            binding.tvEvolveFromName.text = poke.name.firstToUpperCase()
+            Glide.with(this).load(poke.imageUrl).into(binding.ivEvolvePokemon)
+            binding.ivEvolvePokemon.setOnClickListener {
+                activityViewModel.showPokemonDetail(poke.id)
+            }
         }
     }
 
