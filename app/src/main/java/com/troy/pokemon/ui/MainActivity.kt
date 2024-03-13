@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import com.troy.pokemon.R
 import com.troy.pokemon.databinding.ActivityMainBinding
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         val bundle = bundleOf(PokemonDetailFragment.KEY_ID to id)
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            add<PokemonDetailFragment>(R.id.fragment_container_view, args = bundle)
+            replace<PokemonDetailFragment>(R.id.fragment_container_view, args = bundle)
             addToBackStack("PokemonDetailFragment")
         }
     }
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupOnPressed() {
         onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (supportFragmentManager.fragments.size > 1) {
+                if (supportFragmentManager.fragments.last() is PokemonDetailFragment) {
                     supportFragmentManager.popBackStack()
                 } else {
                     finish()

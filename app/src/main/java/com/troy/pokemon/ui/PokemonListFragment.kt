@@ -54,7 +54,16 @@ class PokemonListFragment: Fragment() {
         setupView()
         observeState()
         observeEvent()
+    }
+
+    override fun onResume() {
+        super.onResume()
         viewModel.fetchAllPokemon()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.stopFetch()
     }
 
     private fun setupView() {
@@ -77,14 +86,6 @@ class PokemonListFragment: Fragment() {
         }
         binding.rvGroupPokemon.layoutManager = LinearLayoutManager(context)
         binding.rvGroupPokemon.adapter = adapter
-
-        parentFragmentManager.addOnBackStackChangedListener {
-            if (parentFragmentManager.backStackEntryCount == 1) {
-                viewModel.stopFetch()
-            } else if (parentFragmentManager.backStackEntryCount == 0) {
-                viewModel.fetchAllPokemon()
-            }
-        }
     }
 
     private fun observeState() {
