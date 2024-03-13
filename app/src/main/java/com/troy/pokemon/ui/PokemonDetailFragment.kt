@@ -91,6 +91,14 @@ class PokemonDetailFragment: Fragment() {
         binding.tvName.text = pokemon.name.firstToUpperCase()
         binding.tvNumber.text = resources.getString(R.string.pokemon_number, pokemon.id)
         binding.tvFlavor.text = pokemon.flavorText
+
+        if (pokemon.types.isNotEmpty())
+            binding.tvFirstType.text = pokemon.types[0].firstToUpperCase()
+        if (pokemon.types.size >= 2) {
+            binding.tvSecondType.text = pokemon.types[1].firstToUpperCase()
+            binding.tvSecondType.visibility = View.VISIBLE
+        }
+        
         Glide.with(this).load(pokemon.imageUrl).into(binding.ivPokemon)
         evolvesFrom?.let { poke ->
             binding.layoutEvolveFrom.visibility = View.VISIBLE
