@@ -1,6 +1,5 @@
 package com.troy.pokemon.ui.viewmodel
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.troy.pokemon.domain.CapturePokemonUseCase
 import com.troy.pokemon.domain.FetchAllPokemonUseCase
@@ -8,7 +7,6 @@ import com.troy.pokemon.domain.GetAllPokemonStreamUseCase
 import com.troy.pokemon.domain.GetGroupedPokemonUseCase
 import com.troy.pokemon.domain.GetMyPokemonStreamUseCase
 import com.troy.pokemon.domain.ReleasePokemonUseCase
-import com.troy.pokemon.ui.state.PokemonDetailEvent
 import com.troy.pokemon.ui.state.PokemonListEvent
 import com.troy.pokemon.ui.state.PokemonListState
 import dagger.hilt.android.lifecycle.HiltViewModel
