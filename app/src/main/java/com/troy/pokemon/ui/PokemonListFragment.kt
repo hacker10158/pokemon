@@ -94,8 +94,6 @@ class PokemonListFragment: Fragment() {
                 when(state) {
                     is PokemonListState.OnPokemonListChanged -> {
                         adapter.updateGroupedPokemonList(state.groupedPokemonList)
-                    }
-                    is PokemonListState.OnMyPokemonChanged -> {
                         adapter.updateMyPokemon(state.myPokemonList)
                     }
                 }

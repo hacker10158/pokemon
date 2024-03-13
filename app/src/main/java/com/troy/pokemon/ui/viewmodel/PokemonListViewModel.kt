@@ -7,6 +7,8 @@ import com.troy.pokemon.domain.GetAllPokemonStreamUseCase
 import com.troy.pokemon.domain.GetGroupedPokemonUseCase
 import com.troy.pokemon.domain.GetMyPokemonStreamUseCase
 import com.troy.pokemon.domain.ReleasePokemonUseCase
+import com.troy.pokemon.ui.data.GroupedPokemon
+import com.troy.pokemon.ui.data.Pokemon
 import com.troy.pokemon.ui.state.PokemonListEvent
 import com.troy.pokemon.ui.state.PokemonListState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,10 +31,12 @@ class PokemonListViewModel @Inject constructor(
 ): BaseViewModel() {
     private val _event = MutableSharedFlow<PokemonListEvent>()
     val event: SharedFlow<PokemonListEvent> = _event
-    private val _state = MutableStateFlow<PokemonListState>(PokemonListState.OnPokemonListChanged(ArrayList()))
+    private val _state = MutableStateFlow<PokemonListState>(PokemonListState.OnPokemonListChanged(ArrayList(), ArrayList()))
     val state: StateFlow<PokemonListState> = _state
     private lateinit var job : Job
 
+    private val myPokemonList = ArrayList<Pokemon>()
+    private val groupedPokemonList = ArrayList<GroupedPokemon>()
     init {
         observePokemonDatabase()
         observeMyPokemon()
@@ -41,7 +45,10 @@ class PokemonListViewModel @Inject constructor(
     private fun observePokemonDatabase() {
         viewModelScope.launch(exceptionHandler) {
             getAllPokemonStreamUseCase().collect {
-                _state.emit(PokemonListState.OnPokemonListChanged(getGroupedPokemonUseCase(it)))
+                val newList = getGroupedPokemonUseCase(it)
+                _state.emit(PokemonListState.OnPokemonListChanged(newList, myPokemonList))
+                groupedPokemonList.clear()
+                groupedPokemonList.addAll(newList)
             }
         }
     }
@@ -49,7 +56,9 @@ class PokemonListViewModel @Inject constructor(
     private fun observeMyPokemon() {
         viewModelScope.launch(exceptionHandler) {
             getMyPokemonStreamUseCase().collect {
-                _state.emit(PokemonListState.OnMyPokemonChanged(it))
+                _state.emit(PokemonListState.OnPokemonListChanged(groupedPokemonList, it))
+                myPokemonList.clear()
+                myPokemonList.addAll(it)
             }
         }
     }
