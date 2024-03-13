@@ -5,13 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
 import com.troy.pokemon.R
+import com.troy.pokemon.data.TransitionCache
 import com.troy.pokemon.data.firstToUpperCase
 import com.troy.pokemon.databinding.FragmentPokemonDetailBinding
 import com.troy.pokemon.ui.data.Pokemon
@@ -36,6 +39,12 @@ class PokemonDetailFragment: Fragment() {
         const val KEY_ID = "id"
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = TransitionInflater.from(requireContext())
+            .inflateTransition(android.R.transition.move)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,6 +56,7 @@ class PokemonDetailFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        ViewCompat.setTransitionName(binding.ivPokemon, "pokemon_image")
         val id = requireArguments().getInt(KEY_ID)
 
         setupOnClickListener()
@@ -94,6 +104,7 @@ class PokemonDetailFragment: Fragment() {
 
         if (pokemon.types.isNotEmpty())
             binding.tvFirstType.text = pokemon.types[0].firstToUpperCase()
+            binding.tvFirstType.visibility = View.VISIBLE
         if (pokemon.types.size >= 2) {
             binding.tvSecondType.text = pokemon.types[1].firstToUpperCase()
             binding.tvSecondType.visibility = View.VISIBLE
@@ -105,6 +116,8 @@ class PokemonDetailFragment: Fragment() {
             binding.tvEvolveFromName.text = poke.name.firstToUpperCase()
             Glide.with(this).load(poke.imageUrl).into(binding.ivEvolvePokemon)
             binding.ivEvolvePokemon.setOnClickListener {
+                ViewCompat.setTransitionName(binding.ivPokemon, "")
+                TransitionCache.addTransitionView(it)
                 activityViewModel.showPokemonDetail(poke.id)
             }
         }

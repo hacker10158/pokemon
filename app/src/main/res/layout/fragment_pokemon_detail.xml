@@ -61,10 +61,12 @@
         android:paddingEnd="10dp"
         android:textColor="@color/black"
         android:background="@drawable/type_shape"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/tv_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_second_type"
         app:layout_constraintHorizontal_chainStyle="packed"
+        tools:visibility="visible"
         tools:text="Fire"/>
 
     <TextView

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.troy.pokemon.data.POKE_ID
+import com.troy.pokemon.data.TransitionCache
 import com.troy.pokemon.data.UID
 import com.troy.pokemon.data.firstToUpperCase
 import com.troy.pokemon.databinding.ViewHolderPokemonBinding
@@ -23,6 +24,7 @@ class PokemonViewHolder(
         binding.ivPokemon.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt(POKE_ID, pokemon.id)
+            TransitionCache.addTransitionView(it)
             onClickCallback(it.id, bundle)
         }
 

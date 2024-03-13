@@ -6,10 +6,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import com.troy.pokemon.R
+import com.troy.pokemon.data.TransitionCache
 import com.troy.pokemon.databinding.ActivityMainBinding
 import com.troy.pokemon.ui.state.MainEvent
 import com.troy.pokemon.ui.viewmodel.MainViewModel
@@ -51,8 +53,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun showPokemonDetailPage(id: Int) {
         val bundle = bundleOf(PokemonDetailFragment.KEY_ID to id)
+
+        TransitionCache.getTransitionView()?.let {
+            ViewCompat.setTransitionName(it, "pokemon_image")
+        }
+
         supportFragmentManager.commit {
             setReorderingAllowed(true)
+            TransitionCache.getTransitionView()?.let {
+                addSharedElement(it, it.transitionName)
+            }
+
             replace<PokemonDetailFragment>(R.id.fragment_container_view, args = bundle)
             addToBackStack("PokemonDetailFragment")
         }
