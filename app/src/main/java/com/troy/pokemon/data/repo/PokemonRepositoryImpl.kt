@@ -1,5 +1,6 @@
 package com.troy.pokemon.data.repo
 
+import com.troy.pokemon.data.Config.Companion.LANGUAGE
 import com.troy.pokemon.data.PokemonUtil
 import com.troy.pokemon.data.db.InfoEntity
 import com.troy.pokemon.data.db.MyPokemonEntity
@@ -18,9 +19,6 @@ class PokemonRepositoryImpl @Inject constructor(
     private val pokemonService: PokemonRequestService
 ): PokemonRepository {
 
-    companion object {
-        const val LANGUAGE = "en"
-    }
     override suspend fun getAllPokemonInfo(limit: Int): List<Info> {
         val list = pokemonDatabase.infoDao().getAllInfo()
         return if (list.size == limit) list.map { Info.fromInfoEntity(it) }
