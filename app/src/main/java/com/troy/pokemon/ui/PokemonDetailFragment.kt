@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.transition.TransitionInflater
@@ -91,9 +90,7 @@ class PokemonDetailFragment: Fragment() {
 
     private fun setupOnClickListener() {
         binding.ivBack.setOnClickListener {
-            parentFragmentManager.commit {
-                remove(this@PokemonDetailFragment)
-            }
+            activity?.onBackPressedDispatcher?.onBackPressed()
         }
     }
 
