@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/background"
     android:clickable="true"
     android:focusable="true">
 
@@ -25,7 +25,7 @@
         android:layout_marginEnd="30dp"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="@color/text_primary"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="#1"/>
@@ -43,7 +43,7 @@
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:textColor="@color/text_primary"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@id/iv_pokemon"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +59,7 @@
         android:paddingBottom="5dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:textColor="@color/black"
+        android:textColor="@color/text_primary"
         android:background="@drawable/type_shape"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/tv_name"
@@ -78,7 +78,7 @@
         android:paddingBottom="5dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:textColor="@color/black"
+        android:textColor="@color/text_primary"
         android:background="@drawable/type_shape"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="@id/tv_first_type"
@@ -102,7 +102,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
             android:text="@string/evolves_from"
-            android:textColor="@color/black"
+            android:textColor="@color/text_secondary"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -111,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:textColor="@color/black"
+            android:textColor="@color/text_primary"
             app:layout_constraintTop_toBottomOf="@id/tv_evolve_from_title"
             app:layout_constraintStart_toStartOf="@id/tv_evolve_from_title"
             tools:text="Bulbasaur"/>
@@ -132,7 +132,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:layout_marginStart="20dp"
-        android:textColor="@color/black"
+        android:textColor="@color/text_primary"
         app:layout_constraintTop_toBottomOf="@id/layout_evolve_from"
         app:layout_constraintStart_toStartOf="@id/layout_evolve_from"
         tools:text="So rare that it\nis still said to\nbe a mirage by\fmany experts. Only\na few people have\nseen it worldwide." />
