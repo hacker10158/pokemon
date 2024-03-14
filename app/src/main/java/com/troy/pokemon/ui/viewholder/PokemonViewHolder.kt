@@ -8,11 +8,12 @@ import com.troy.pokemon.data.TransitionCache
 import com.troy.pokemon.data.UID
 import com.troy.pokemon.data.firstToUpperCase
 import com.troy.pokemon.databinding.ViewHolderPokemonBinding
+import com.troy.pokemon.ui.adapter.OnClickCallback
 import com.troy.pokemon.ui.data.Pokemon
 
 class PokemonViewHolder(
     private val binding: ViewHolderPokemonBinding,
-    private val onClickCallback: (viewId: Int, bundle: Bundle) -> Unit
+    private val onClickCallback: OnClickCallback
 ): RecyclerView.ViewHolder(binding.root)  {
 
     fun bindViewHolder(pokemon: Pokemon) {
@@ -25,14 +26,14 @@ class PokemonViewHolder(
             val bundle = Bundle()
             bundle.putInt(POKE_ID, pokemon.id)
             TransitionCache.addTransitionView(it)
-            onClickCallback(it.id, bundle)
+            onClickCallback.onClick(it.id, bundle)
         }
 
         binding.ivPokeBall.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt(POKE_ID, pokemon.id)
             bundle.putInt(UID, pokemon.uid)
-            onClickCallback(it.id, bundle)
+            onClickCallback.onClick(it.id, bundle)
         }
     }
 }

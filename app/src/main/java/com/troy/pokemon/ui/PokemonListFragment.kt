@@ -20,6 +20,7 @@ import com.troy.pokemon.data.POKE_ID
 import com.troy.pokemon.data.UID
 import com.troy.pokemon.databinding.FragmentPokemonListBinding
 import com.troy.pokemon.ui.adapter.GroupedPokemonListAdapter
+import com.troy.pokemon.ui.adapter.OnClickCallback
 import com.troy.pokemon.ui.state.PokemonListEvent
 import com.troy.pokemon.ui.state.PokemonListState
 import com.troy.pokemon.ui.viewmodel.MainViewModel
@@ -68,7 +69,7 @@ class PokemonListFragment: Fragment() {
 
     private fun setupView() {
         adapter = GroupedPokemonListAdapter().apply {
-            onClickCallback = { viewId, bundle ->
+            onClickCallback = OnClickCallback { viewId, bundle ->
                 when(viewId) {
                     R.id.iv_pokemon -> {
                         activityViewModel.showPokemonDetail(bundle.getInt(POKE_ID))

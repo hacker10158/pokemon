@@ -1,6 +1,5 @@
 package com.troy.pokemon.ui.adapter
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -16,7 +15,7 @@ import com.troy.pokemon.ui.data.Pokemon
 import com.troy.pokemon.ui.viewholder.MyPokemonViewHolder
 
 class GroupedPokemonListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    lateinit var onClickCallback: (viewId: Int, bundle: Bundle) -> Unit
+    lateinit var onClickCallback: OnClickCallback
     private var groupedPokemonList = ArrayList<GroupedPokemon>()
     private var myPokemonList = ArrayList<Pokemon>()
 
@@ -29,11 +28,11 @@ class GroupedPokemonListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()
         val inflater = LayoutInflater.from(parent.context)
         if (viewType == TYPE_MY_POKEMON) {
             return MyPokemonViewHolder(ViewHolderMyPokemonBinding.inflate(inflater, parent, false)) {
-                    viewId, bundle -> onClickCallback(viewId, bundle.also { it.putInt(ACTION_TYPE, ACTION_RELEASE) })
+                    viewId, bundle -> onClickCallback.onClick(viewId, bundle.also { it.putInt(ACTION_TYPE, ACTION_RELEASE) })
             }
         }
         return GroupPokemonViewHolder(ViewHolderGroupPokemonBinding.inflate(inflater, parent, false)) {
-                viewId, bundle -> onClickCallback(viewId, bundle.also { it.putInt(ACTION_TYPE, ACTION_CAPTURE) })
+                viewId, bundle -> onClickCallback.onClick(viewId, bundle.also { it.putInt(ACTION_TYPE, ACTION_CAPTURE) })
         }
     }
 

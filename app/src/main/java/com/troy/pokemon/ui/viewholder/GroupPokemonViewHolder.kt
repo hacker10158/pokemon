@@ -1,16 +1,16 @@
 package com.troy.pokemon.ui.viewholder
 
-import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.troy.pokemon.data.firstToUpperCase
 import com.troy.pokemon.databinding.ViewHolderGroupPokemonBinding
+import com.troy.pokemon.ui.adapter.OnClickCallback
 import com.troy.pokemon.ui.adapter.PokemonAdapter
 import com.troy.pokemon.ui.data.GroupedPokemon
 
 class GroupPokemonViewHolder(
     private val binding: ViewHolderGroupPokemonBinding,
-    private val onClick: (viewId: Int, bundle: Bundle) -> Unit
+    private val onClick: OnClickCallback
 ): RecyclerView.ViewHolder(binding.root) {
     private val adapter = PokemonAdapter().apply {
         this.onClickCallback = onClick
