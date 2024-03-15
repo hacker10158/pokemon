@@ -99,9 +99,10 @@ class PokemonDetailFragment: Fragment() {
         binding.tvNumber.text = resources.getString(R.string.pokemon_number, pokemon.id)
         binding.tvFlavor.text = pokemon.flavorText
 
-        if (pokemon.types.isNotEmpty())
+        if (pokemon.types.isNotEmpty()) {
             binding.tvFirstType.text = pokemon.types[0].firstToUpperCase()
             binding.tvFirstType.visibility = View.VISIBLE
+        }
         if (pokemon.types.size >= 2) {
             binding.tvSecondType.text = pokemon.types[1].firstToUpperCase()
             binding.tvSecondType.visibility = View.VISIBLE
