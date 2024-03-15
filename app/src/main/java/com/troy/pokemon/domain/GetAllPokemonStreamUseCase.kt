@@ -1,10 +1,17 @@
 package com.troy.pokemon.domain
 
+import com.troy.pokemon.data.di.IoDispatcher
 import com.troy.pokemon.data.repo.PokemonRepository
 import com.troy.pokemon.ui.data.Pokemon
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class GetAllPokemonStreamUseCase @Inject constructor(private val pokemonRepository: PokemonRepository) {
-    operator fun invoke(): Flow<List<Pokemon>> = pokemonRepository.getAllPokemonStream()
+class GetAllPokemonStreamUseCase @Inject constructor(
+    private val pokemonRepository: PokemonRepository,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
+) {
+    operator fun invoke(): Flow<List<Pokemon>> =
+        pokemonRepository.getAllPokemonStream().flowOn(dispatcher)
 }

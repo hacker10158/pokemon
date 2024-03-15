@@ -2,6 +2,7 @@ package com.troy.pokemon.ui.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.troy.pokemon.domain.FetchPokemonSpeciesUseCase
+import com.troy.pokemon.domain.GetPokemonByNameUseCase
 import com.troy.pokemon.domain.GetPokemonStreamUseCase
 import com.troy.pokemon.ui.state.PokemonDetailEvent
 import com.troy.pokemon.ui.state.PokemonDetailState
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PokemonDetailViewModel @Inject constructor(
     private val getPokemonStreamUseCase: GetPokemonStreamUseCase,
+    private val getPokemonByNameUseCase: GetPokemonByNameUseCase,
     private val fetchPokemonSpeciesUseCase: FetchPokemonSpeciesUseCase
 ): BaseViewModel() {
     private val _event = MutableSharedFlow<PokemonDetailEvent>()
@@ -31,7 +33,7 @@ class PokemonDetailViewModel @Inject constructor(
             getPokemonStreamUseCase(id).collect { pokemon ->
                 launch(exceptionHandler) {
                     pokemon.evolvesFrom?.let { name ->
-                        _state.emit(PokemonDetailState(pokemon, getPokemonStreamUseCase(name)))
+                        _state.emit(PokemonDetailState(pokemon, getPokemonByNameUseCase(name)))
                     }
                 }
                 _state.emit(PokemonDetailState(pokemon))

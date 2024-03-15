@@ -1,15 +1,17 @@
 package com.troy.pokemon.domain
 
+import com.troy.pokemon.data.di.IoDispatcher
 import com.troy.pokemon.data.repo.PokemonRepository
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FetchPokemonSpeciesUseCase @Inject constructor(
-    private val pokemonRepository: PokemonRepository
+    private val pokemonRepository: PokemonRepository,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) {
     suspend operator fun invoke(id: Int) {
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             pokemonRepository.getPokemonSpecies(id)
         }
     }
