@@ -77,6 +77,8 @@ class GroupedPokemonListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()
     }
 
     fun updateMyPokemon(list: List<Pokemon>) {
+        if (list.size == myPokemonList.size)
+            return
         myPokemonList.clear()
         myPokemonList.addAll(list)
 
