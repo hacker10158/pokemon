@@ -22,6 +22,9 @@ class GroupedPokemonListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()
     companion object {
         private const val TYPE_MY_POKEMON = 0
         private const val TYPE_ALL_POKEMON = 1
+
+        //my list size in this adapter
+        private const val MY_LIST_SIZE = 1
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -47,19 +50,23 @@ class GroupedPokemonListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()
     fun updateGroupedPokemonList(list: List<GroupedPokemon>) {
         val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return groupedPokemonList[oldItemPosition].type == list[newItemPosition].type
+                if (oldItemPosition == 0 || newItemPosition == 0)
+                    return oldItemPosition == newItemPosition
+                return groupedPokemonList[oldItemPosition - MY_LIST_SIZE].type == list[newItemPosition - MY_LIST_SIZE].type
             }
 
             override fun getOldListSize(): Int {
-                return groupedPokemonList.size
+                return groupedPokemonList.size + MY_LIST_SIZE
             }
 
             override fun getNewListSize(): Int {
-                return list.size
+                return list.size + MY_LIST_SIZE
             }
 
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return groupedPokemonList[oldItemPosition].pokemonList.size == list[newItemPosition].pokemonList.size
+                if (oldItemPosition == 0 || newItemPosition == 0)
+                    return oldItemPosition == newItemPosition
+                return groupedPokemonList[oldItemPosition - MY_LIST_SIZE].pokemonList.size == list[newItemPosition - MY_LIST_SIZE].pokemonList.size
             }
         })
 
@@ -77,7 +84,7 @@ class GroupedPokemonListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()
     }
 
     override fun getItemCount(): Int {
-        return groupedPokemonList.size + 1
+        return groupedPokemonList.size + MY_LIST_SIZE
     }
 
     override fun getItemViewType(position: Int): Int {
