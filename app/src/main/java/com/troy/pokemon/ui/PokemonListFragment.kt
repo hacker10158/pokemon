@@ -91,11 +91,13 @@ class PokemonListFragment: Fragment() {
 
     private fun observeState() {
         lifecycleScope.launch(exceptionHandler) {
-            viewModel.state.collect { state ->
-                when(state) {
-                    is PokemonListState.OnPokemonListChanged -> {
-                        adapter.updateGroupedPokemonList(state.groupedPokemonList)
-                        adapter.updateMyPokemon(state.myPokemonList)
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect { state ->
+                    when(state) {
+                        is PokemonListState.OnPokemonListChanged -> {
+                            adapter.updateGroupedPokemonList(state.groupedPokemonList)
+                            adapter.updateMyPokemon(state.myPokemonList)
+                        }
                     }
                 }
             }
@@ -122,6 +124,7 @@ class PokemonListFragment: Fragment() {
     }
 
     private fun showErrorMessage(throwable: Throwable) {
-        Toast.makeText(context, throwable.message, Toast.LENGTH_SHORT).show()
+        val message = throwable.message?: throwable.toString()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }

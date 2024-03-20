@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,7 +31,7 @@ class PokemonDetailViewModel @Inject constructor(
             launch(exceptionHandler) {
                 fetchPokemonSpeciesUseCase(id)
             }
-            getPokemonStreamUseCase(id).collect { pokemon ->
+            getPokemonStreamUseCase(id).distinctUntilChanged().collect { pokemon ->
                 launch(exceptionHandler) {
                     pokemon.evolvesFrom?.let { name ->
                         _state.emit(PokemonDetailState(pokemon, getPokemonByNameUseCase(name)))

@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showErrorMessage(throwable: Throwable) {
-        Toast.makeText(this, throwable.message, Toast.LENGTH_SHORT).show()
+        val message = throwable.message?: throwable.toString()
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

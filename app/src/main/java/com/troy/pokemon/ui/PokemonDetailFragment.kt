@@ -9,7 +9,9 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
 import com.troy.pokemon.R
@@ -68,9 +70,11 @@ class PokemonDetailFragment: Fragment() {
 
     private fun observeState() {
         lifecycleScope.launch(exceptionHandler) {
-            viewModel.state.collect { state ->
-                state.pokemon?.let {
-                    updateView(it, state.evolveFromPokemon)
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect { state ->
+                    state.pokemon?.let {
+                        updateView(it, state.evolveFromPokemon)
+                    }
                 }
             }
         }
@@ -78,10 +82,12 @@ class PokemonDetailFragment: Fragment() {
 
     private fun observeEvent() {
         lifecycleScope.launch(exceptionHandler) {
-            viewModel.event.collect { event ->
-                when (event) {
-                    is PokemonDetailEvent.OnError -> {
-                        showErrorMessage(event.throwable)
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.event.collect { event ->
+                    when (event) {
+                        is PokemonDetailEvent.OnError -> {
+                            showErrorMessage(event.throwable)
+                        }
                     }
                 }
             }
@@ -127,6 +133,7 @@ class PokemonDetailFragment: Fragment() {
     }
 
     private fun showErrorMessage(throwable: Throwable) {
-        Toast.makeText(context, throwable.message, Toast.LENGTH_SHORT).show()
+        val message = throwable.message?: throwable.toString()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }
