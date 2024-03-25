@@ -1,7 +1,6 @@
 package com.troy.pokemon.usecase
 
 import com.troy.pokemon.data.repo.PokemonRepository
-import com.troy.pokemon.domain.GetMyPokemonStreamUseCase
 import com.troy.pokemon.domain.GetPokemonStreamUseCase
 import com.troy.pokemon.ui.data.Pokemon
 import io.mockk.coEvery
